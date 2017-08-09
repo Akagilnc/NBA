@@ -7,6 +7,8 @@ with open('./datas/warriors.json') as data_file:
     data_title = datas.get('name')
     data_value = datas.get('value')
 
+    wb = load_workbook('NBA.xlsx')
+    sheet = wb.get_active_sheet
 
 
     for data in data_value:
