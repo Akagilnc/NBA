@@ -8,9 +8,9 @@ from os.path import isfile, join
 class ReadData:
 
     def read_file_name(self):
-        onlyfiles = [f for f in listdir(".\datas") if isfile(join('.\datas', f))]
+        files = [f for f in listdir(".\data") if isfile(join('.\data', f))]
         row_num = 1
-        for filename in onlyfiles:
+        for filename in files:
             print('begin to make ' + str(filename))
             row_num = self.make_datas(filename, row_num)
             print('end of ' + str(filename))
@@ -18,10 +18,10 @@ class ReadData:
         print('done')
 
     def make_datas(self, name, row_num):
-        with open('./datas/' + name) as data_file:
-            datas = json.load(data_file)
-            data_title = datas.get('name')
-            data_value = datas.get('value')
+        with open('./data/' + name) as data_file:
+            data = json.load(data_file)
+            data_title = data.get('name')
+            data_value = data.get('value')
 
             wb = load_workbook('NBA.xlsx')
             sheet = wb.active
@@ -43,6 +43,7 @@ class ReadData:
             wb.save('NBA.xlsx')
             print(data_title)
         return row_num
+
 
 process = ReadData()
 process.read_file_name()
