@@ -1,6 +1,5 @@
 import json
-from pprint import pprint
-from openpyxl import Workbook, load_workbook
+from openpyxl import load_workbook
 from os import listdir
 from os.path import isfile, join
 
@@ -17,7 +16,8 @@ class ReadData:
 
         print('done')
 
-    def make_datas(self, name, row_num):
+    @classmethod
+    def make_datas(cls, name, row_num):
         with open('./data/' + name) as data_file:
             data = json.load(data_file)
             data_title = data.get('name')

@@ -1,9 +1,9 @@
-from openpyxl import Workbook, load_workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl import load_workbook
 
 
 class Get1617:
-    def read_file(self):
+    @classmethod
+    def read_file(cls):
         wb = load_workbook('./docs/2015-2017NBA&BAA&ABA ELO.xlsx')
         sheet = wb.active
         rownum = 0
@@ -30,12 +30,10 @@ class Get1617:
 
         print(target)
 
-    def calculator(self, x):
+    @classmethod
+    def calculator(cls, x):
         y = 0
         return y
-
-
-
 
 
 process = Get1617()
