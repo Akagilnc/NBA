@@ -2,38 +2,64 @@ from openpyxl import load_workbook
 
 
 class Get1617:
-    @classmethod
-    def read_file(cls):
+    def __init__(self):
+        self.data = list()
+
+    def read_file(self):
         wb = load_workbook('./docs/2015-2017NBA&BAA&ABA ELO.xlsx')
         sheet = wb.active
-        rownum = 0
-        data = list()
         target = list()
-        for line in sheet.values:
-            rownum += 1
-            if rownum == 1:
+        for rownum, line in enumerate(sheet.values):
+            if rownum == 0:
                 continue
             if line[9] != '？':
-                data.append(line[8:10])
+                self.data.append(line[8:10])
             else:
-                target.append(line[8:10])
+                target.append((rownum, line[8:10]))
 
-        data.sort()
-        return data, target
+        self.data.sort()
+        return target
 
     def get_elo(self):
-        data, target = self.read_file()
+        target = self.read_file()
 
-        for index, line in enumerate(target):
-            y = self.calculator(line[0])
-            target[index] = (line[0], y)
+        for rownum, line in enumerate(target):
+            y = self.calculator(line[1][0])
+            target[rownum] = (line[0], (line[1][0], y))
 
-        print(target)
-
-    @classmethod
-    def calculator(cls, x):
+    def calculator(self, x):
         y = 0
+        self.find_nearest(x)
         return y
+
+    def find_nearest(self, x):
+        hi = len(self.data)
+        low = 0
+        x1, x2 = -1, -1
+        while True:
+            if hi == low:
+                x1 = x2 = hi
+            if hi - 1 == low:
+                x1, x2 = hi, low
+
+            if x1 != -1 and x2 != -1:
+                print (str(x1) + "=======" + str(x2))
+                return x1, x2
+            mid = low + (hi - low)//2
+            #print(mid)
+            if x < (self.data[mid])[0]:
+                #print('high')
+                hi = mid
+            elif x > self.data[mid][0]:
+                #print('low')
+                low = mid
+            else:
+                hi = low = mid
+
+            if mid == 0:
+                x1, x2 = 0, 1
+
+
 
 
 process = Get1617()
